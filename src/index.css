@@ -1,0 +1,34 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html, body, #root {
+    height: 100%;
+    overflow: hidden;
+    overscroll-behavior: none;
+  }
+  body {
+    @apply bg-slate-950 text-white font-sans;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+  * {
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+@layer utilities {
+  .neon-text-cyan {
+    text-shadow: 0 0 10px #22d3ee, 0 0 20px #22d3ee40;
+  }
+  .neon-text-amber {
+    text-shadow: 0 0 10px #fbbf24, 0 0 20px #fbbf2440;
+  }
+  .neon-border-cyan {
+    box-shadow: 0 0 8px #22d3ee40, inset 0 0 8px #22d3ee10;
+  }
+  .btn-press {
+    @apply active:scale-95 transition-transform duration-75;
+  }
+}
