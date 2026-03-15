@@ -1,5 +1,5 @@
 import { useReducer } from 'react'
-import { Player, DartThrow, WinnerInfo } from '../types'
+import { Player, DartThrow, WinnerInfo, PlayerResult } from '../types'
 
 const MAX_ROUNDS = 8
 
@@ -69,6 +69,12 @@ function reducer(playerDefs: Player[]) {
           const winners = newPlayers
             .map((p, i) => (p.total === maxScore ? i : -1))
             .filter((i) => i >= 0)
+          const playerResults: PlayerResult[] = newPlayers.map((p, i) => ({
+            name: playerDefs[i].name,
+            isWinner: p.total === maxScore,
+            finalScore: p.total,
+            roundScores: p.roundScores,
+          }))
           return {
             current: {
               ...prev,
@@ -80,6 +86,7 @@ function reducer(playerDefs: Player[]) {
                 indices: winners,
                 names: winners.map((i) => playerDefs[i].name),
                 score: maxScore,
+                playerResults,
               },
             },
             history: [...state.history, prev],

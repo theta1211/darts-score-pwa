@@ -1,5 +1,5 @@
 import { useReducer } from 'react'
-import { Player, DartThrow, ZeroOneVariant, WinnerInfo } from '../types'
+import { Player, DartThrow, ZeroOneVariant, WinnerInfo, PlayerResult } from '../types'
 
 interface PlayerState {
   score: number
@@ -79,6 +79,12 @@ function reducer(players: Player[]) {
             ? { score: 0, roundScores: [...p.roundScores, turnScore] }
             : p
         )
+        const playerResults: PlayerResult[] = newPlayers.map((p, i) => ({
+          name: players[i].name,
+          isWinner: i === prev.currentPlayer,
+          finalScore: p.score,
+          roundScores: p.roundScores,
+        }))
         const next: ZeroOneState = {
           ...prev,
           players: newPlayers,
@@ -87,6 +93,7 @@ function reducer(players: Player[]) {
           winner: {
             indices: [prev.currentPlayer],
             names: [players[prev.currentPlayer].name],
+            playerResults,
           },
           lastBust: false,
         }

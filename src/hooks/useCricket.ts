@@ -1,5 +1,5 @@
 import { useReducer } from 'react'
-import { Player, DartThrow, WinnerInfo, CRICKET_TARGETS } from '../types'
+import { Player, DartThrow, WinnerInfo, CRICKET_TARGETS, PlayerResult } from '../types'
 
 const TARGETS = [...CRICKET_TARGETS] as number[]
 
@@ -36,7 +36,12 @@ function checkWinner(players: PlayerState[], playerNames: Player[]): WinnerInfo 
   const maxScore = Math.max(...players.map((p) => p.score))
   for (let i = 0; i < players.length; i++) {
     if (allOpen(players[i]) && players[i].score >= maxScore) {
-      return { indices: [i], names: [playerNames[i].name], score: players[i].score }
+      const playerResults: PlayerResult[] = players.map((p, j) => ({
+        name: playerNames[j].name,
+        isWinner: j === i,
+        finalScore: p.score,
+      }))
+      return { indices: [i], names: [playerNames[i].name], score: players[i].score, playerResults }
     }
   }
   return null
